@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI
 from enum import Enum
 # TODO Importar fastApi
@@ -5,6 +6,7 @@ from enum import Enum
 # TODO Crear una instancia
 app = FastAPI()
 
+fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
 class ModelName(str, Enum):
     alexnet = "alexnet"
@@ -16,9 +18,6 @@ async def root():
     return {"message": "Hello World!!"}
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
 
 @app.get("/users/me")
 async def read_user_me():
@@ -45,3 +44,22 @@ async def get_model(model_name: ModelName):
 @app.get("/files/{file_path:path}")
 async def read_file(file_path: str):
     return {"file_path": file_path}
+
+
+
+# TODO Optional Parameters
+# @app.get("/items/{item_id}")
+# async def read_item(item_id: str, q: Optional[str] = None):
+#     if q:
+#         return {"item_id": item_id, "q": q}
+#     return {"item_id": item_id}
+
+# TODO Query parameter type conversion
+@app.get("/items/{item_id}")
+async def read_item(item_id: str, q: Optional[str] = None, short: bool = False):
+    item = {"item_id": item_id}
+    if q:
+        item.update({"q": q})
+    if not short:
+        item.update({"short": "This is amazing item has a long description"})
+    return item
