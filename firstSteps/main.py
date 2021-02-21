@@ -28,14 +28,22 @@ class Item(BaseModel):
 # async def create_item(item: Item):
 #     item.name + item.price
 #     return item
+# TODO Rquest Body + path parameters
 
-@app.post("/items/")
-async def create_item(item: Item):
-	item_dict = item.dict()
-	if item.tax:
-		price_with_tax = item.price + item.tax
-		item_dict.update({"price_with_tax": price_with_tax})
-	return item_dict
+@app.put("/items/{item_id}")
+async def create_item(item_id: int, item: Item):
+	return {"item_id": item_id, **item.dict()}
+
+
+# TODO Using the model attributes
+
+# @app.post("/items/")
+# async def create_item(item: Item):
+# 	item_dict = item.dict()
+# 	if item.tax:
+# 		price_with_tax = item.price + item.tax
+# 		item_dict.update({"price_with_tax": price_with_tax})
+# 	return item_dict
 
 
 @app.get("/")
