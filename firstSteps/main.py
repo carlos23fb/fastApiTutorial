@@ -28,11 +28,24 @@ class Item(BaseModel):
 # async def create_item(item: Item):
 #     item.name + item.price
 #     return item
-# TODO Rquest Body + path parameters
+
+#TODO Request body + path + query params
 
 @app.put("/items/{item_id}")
-async def create_item(item_id: int, item: Item):
-	return {"item_id": item_id, **item.dict()}
+async def create_item(item_id: int, item: Item, q: Optional[str] = None):
+    result = {"item_id": item_id, **item.dict()}
+    if q:
+        result.update({"q": q})
+    return result
+    		
+
+
+
+# TODO Request Body + path parameters
+
+# @app.put("/items/{item_id}")
+# async def create_item(item_id: int, item: Item):
+# 	return {"item_id": item_id, **item.dict()}
 
 
 # TODO Using the model attributes
