@@ -8,60 +8,68 @@ from enum import Enum
 app = FastAPI()
 
 fake_items_db = [{"item_name": "Foo"}, {
-    "item_name": "Bar"}, {"item_name": "Baz"}]
+	"item_name": "Bar"}, {"item_name": "Baz"}]
 
 
 class ModelName(str, Enum):
-    alexnet = "alexnet"
-    resnet = "resnet"
-    lenet = "lenet"
+	alexnet = "alexnet"
+	resnet = "resnet"
+	lenet = "lenet"
 
 
 class Item(BaseModel):
-    name: str
-    description: Optional[str] = None
-    price: float
-    tax: Optional[float] = None
+	name: str
+	description: Optional[str] = None
+	price: float
+	tax: Optional[float] = None
 
+
+# @app.post("/items/")
+# async def create_item(item: Item):
+#     item.name + item.price
+#     return item
 
 @app.post("/items/")
 async def create_item(item: Item):
-    item.name + item.price
-    return item
+	item_dict = item.dict()
+	if item.tax:
+		price_with_tax = item.price + item.tax
+		item_dict.update({"price_with_tax": price_with_tax})
+	return item_dict
 
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World!!"}
+	return {"message": "Hello World!!"}
 
 
 @app.get("/users/me")
 async def read_user_me():
-    return {"user_id": "usuario actual"}
+	return {"user_id": "usuario actual"}
 
 
 @app.get("/users/{user_id}")
 async def read_user(user_id: str):
-    return {"user_id": user_id}
+	return {"user_id": user_id}
 
 
 @app.get("/models/{model_name}")
 async def get_model(model_name: ModelName):
 
-    if model_name == ModelName.alexnet.value:
-        return {"model_name": model_name, "message": "Deep Learning FTW!"}
+	if model_name == ModelName.alexnet.value:
+		return {"model_name": model_name, "message": "Deep Learning FTW!"}
 
-    if model_name.value == "lennet":
-        return {"model_name": model_name, "message": "LeCNN all the images"}
+	if model_name.value == "lennet":
+		return {"model_name": model_name, "message": "LeCNN all the images"}
 
-    return {"model_name": model_name, "message": "Have some residuals"}
+	return {"model_name": model_name, "message": "Have some residuals"}
 
 # TODO Path parameters containing paths
 
 
 @app.get("/files/{file_path:path}")
 async def read_file(file_path: str):
-    return {"file_path": file_path}
+	return {"file_path": file_path}
 
 
 # TODO Optional Parameters
@@ -74,12 +82,12 @@ async def read_file(file_path: str):
 # TODO Query parameter type conversion
 @app.get("/items/{item_id}")
 async def read_item(item_id: str, q: Optional[str] = None, short: bool = False):
-    item = {"item_id": item_id}
-    if q:
-        item.update({"q": q})
-    if not short:
-        item.update({"short": "This is amazing item has a long description"})
-    return item
+	item = {"item_id": item_id}
+	if q:
+		item.update({"q": q})
+	if not short:
+		item.update({"short": "This is amazing item has a long description"})
+	return item
 
 # TODO Multiple path and query params
 
@@ -103,5 +111,5 @@ async def read_item(item_id: str, q: Optional[str] = None, short: bool = False):
 # TODO Optional and default query params
 @app.get("/item/{item_id}")
 async def read_user_item(item_id: str, needy: str, skip: int = 0, limit: Optional[int] = None):
-    item = {"item_id": item_id, "needy": needy, "skip": skip, "limit": limit}
-    return item
+	item = {"item_id": item_id, "needy": needy, "skip": skip, "limit": limit}
+	return item
