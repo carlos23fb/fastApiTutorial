@@ -23,15 +23,37 @@ class Item(BaseModel):
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
-# TODO Alias parameters
 
+# TODO Deprecating parameters
 
 @app.get("/items/")
-async def read_items(q: Optional[str] = Query(None, alias="item-query")):
-    results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+async def read_items(
+    q: Optional[str] = Query(
+        None,
+        alias="item-query",
+        title="Query String",
+        description="Query String for the items to search in the database that have a good match",
+        min_length=3,
+        max_length=20,
+        regex="^fixedquery$",
+        deprecated= True
+    )
+):
+    results = {"items": [{"item_id": "Foor"},{"item_id": "Bar"}]}
     if q:
         results.update({"q": q})
     return results
+
+
+# TODO Alias parameters
+
+
+# @app.get("/items/")
+# async def read_items(q: Optional[str] = Query(None, alias="item-query")):
+#     results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+#     if q:
+#         results.update({"q": q})
+#     return results
 
 
 # TODO Add more metadata
