@@ -23,19 +23,29 @@ class Item(BaseModel):
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
+# TODO Alias parameters
+
+
+@app.get("/items/")
+async def read_items(q: Optional[str] = Query(None, alias="item-query")):
+    results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
 
 # TODO Add more metadata
 
 
-@app.get("/items/")
-async def read_items(q: Optional[str] = Query(None,
-                                        min_length=3, 
-                                        title="Query Strinig",
-                                        description="Query String for items to search in the database that have a good match")):
-    results = {"items": [{"id_item": "Foo"},{"item_id": "Bar"}]}
-    if q:
-        results.update({"q": q})
-    return results
+# @app.get("/items/")
+# async def read_items(q: Optional[str] = Query(None,
+#                                         min_length=3, 
+#                                         title="Query Strinig",
+#                                         description="Query String for items to search in the database that have a good match")):
+#     results = {"items": [{"id_item": "Foo"},{"item_id": "Bar"}]}
+#     if q:
+#         results.update({"q": q})
+#     return results
 
 
 
