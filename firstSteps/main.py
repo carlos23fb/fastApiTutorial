@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from enum import Enum
@@ -24,17 +24,51 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
 
-# TODO Default values for query parameter
+# TODO Add more metadata
 
 
 @app.get("/items/")
-async def read_items(q: Optional[str] = Query(..., min_length=3)):
-    results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+async def read_items(q: Optional[str] = Query(None,
+                                        min_length=3, 
+                                        title="Query Strinig",
+                                        description="Query String for items to search in the database that have a good match")):
+    results = {"items": [{"id_item": "Foo"},{"item_id": "Bar"}]}
     if q:
         results.update({"q": q})
     return results
 
 
+
+# TODO Query parameter only 
+
+# @app.get("/items/")
+# async def read_items(q: Optional[List[int]] = Query([])):
+#     query_items = {"q": q}
+#     return query_items
+
+
+
+# TODO Query parameter list / multiple values
+
+# @app.get("/items/")
+# async def read_items(q: Optional[List[str]] = Query(None)):
+#     query_items = {"q": q}
+#     return query_items
+
+
+
+# TODO Make query parameter required
+
+
+# @app.get("/items/")
+# async def read_items(q: Optional[str] = Query(..., min_length=3)):
+#     results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+#     if q:
+#         results.update({"q": q})
+#     return results
+
+
+# TODO Default values for query parameter
 
 # @app.get("/items/")
 # async def read_items(q: Optional[str] = Query("fixedquery", min_length=3)):
@@ -90,7 +124,7 @@ async def read_items(q: Optional[str] = Query(..., min_length=3)):
 # TODO Request body + path + query params
 
 
-@app.put("/items/{item_id}")
+@app.put("/items/create/{item_id}")
 async def create_item(item_id: int, item: Item, q: Optional[str] = None):
     result = {"item_id": item_id, **item.dict()}
     if q:
@@ -151,7 +185,7 @@ async def read_file(file_path: str):
 
 
 # TODO Optional Parameters
-@app.get("/items/{item_id}")
+@app.get("/items/read/{item_id}")
 async def read_item(item_id: str, q: Optional[str] = None):
     if q:
         return {"item_id": item_id, "q": q}
