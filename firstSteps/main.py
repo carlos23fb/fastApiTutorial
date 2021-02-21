@@ -1,27 +1,44 @@
 from typing import Optional
 from fastapi import FastAPI
+from pydantic import BaseModel
 from enum import Enum
 # TODO Importar fastApi
 
 # TODO Crear una instancia
 app = FastAPI()
 
-fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
+fake_items_db = [{"item_name": "Foo"}, {
+    "item_name": "Bar"}, {"item_name": "Baz"}]
+
 
 class ModelName(str, Enum):
     alexnet = "alexnet"
     resnet = "resnet"
     lenet = "lenet"
 
+
+class Item(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: Optional[float] = None
+
+
+@app.post("/items/")
+async def create_item(item: Item):
+    item.name + item.price
+    return item
+
+
 @app.get("/")
 async def root():
     return {"message": "Hello World!!"}
 
 
-
 @app.get("/users/me")
 async def read_user_me():
     return {"user_id": "usuario actual"}
+
 
 @app.get("/users/{user_id}")
 async def read_user(user_id: str):
@@ -41,10 +58,10 @@ async def get_model(model_name: ModelName):
 
 # TODO Path parameters containing paths
 
+
 @app.get("/files/{file_path:path}")
 async def read_file(file_path: str):
     return {"file_path": file_path}
-
 
 
 # TODO Optional Parameters
@@ -82,6 +99,8 @@ async def read_item(item_id: str, q: Optional[str] = None, short: bool = False):
 #     item= {"item_id": item_id, "needy": needy}
 #     return item
 
+
+# TODO Optional and default query params
 @app.get("/item/{item_id}")
 async def read_user_item(item_id: str, needy: str, skip: int = 0, limit: Optional[int] = None):
     item = {"item_id": item_id, "needy": needy, "skip": skip, "limit": limit}
