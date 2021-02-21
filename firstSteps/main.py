@@ -24,6 +24,34 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
 
+# TODO Default values for query parameter
+
+
+@app.get("/items/")
+async def read_items(q: Optional[str] = Query(..., min_length=3)):
+    results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
+
+# @app.get("/items/")
+# async def read_items(q: Optional[str] = Query("fixedquery", min_length=3)):
+#     results = {"items": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+#     if q:
+#         results.update({"q": q})
+#     return results
+
+
+# TODO Add Regular
+# @app.get("/items/")
+# async def read_items(q: Optional[str] = Query(None, min_length = 3, max_length = 20, regex="^fixedquery$")):
+#     results = {"item": [{"item_id": "Foo"},{"item_id": "Bar"}]}
+#     if q:
+#         results.update({"q": q})
+#     return results
+
 # TODO Add more validations
 
 
