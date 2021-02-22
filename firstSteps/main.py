@@ -28,20 +28,38 @@ class User(BaseModel):
     user_name: str
     full_name: Optional[str] = None
 
+
+
+
+
+# TODO Multiple body params and query
+
+# @app.put("/items/{item_id}")
+# async def update_items(
+#     *,
+#     item_id: int,
+#     item: Item,
+#     user: User,
+#     importance: int = Body(..., gt=0),
+#     q: Optional[str] = None
+# ):
+#     results = {"item_id": item_id, "item": item, "user": user}
+#     if q:
+#         results.update({"q": q})
+#     return results
+
+
 # TODO Singular values in body
 
-@app.put("/items/{item_id}")
-async def update_items(
-    item_id: int,
-    item: Item,
-    user: User,
-    importance: int = Body(..., ge=1, le=5)
-):
-    result = {"item_id": item_id, "item": item, "user": user, "importance": importance}
-    return result
-
-
-
+# @app.put("/items/{item_id}")
+# async def update_items(
+#     item_id: int,
+#     item: Item,
+#     user: User,
+#     importance: int = Body(..., ge=1, le=5)
+# ):
+#     result = {"item_id": item_id, "item": item, "user": user, "importance": importance}
+#     return result
 
 
 # TODO Multiple body parameters
