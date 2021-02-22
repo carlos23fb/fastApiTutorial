@@ -24,14 +24,56 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
 
-# TODO Ordering the parameters as is needed
+#TODO Number Validations: greater than equal, greater than, less than with floats
 
 @app.get("/items/{item_id}")
-async def read_items(
-    q: str, item_id: int = Path(..., title="The Id of the item to get")
+async def read_item(
+    *,
+    item_id: int = Path(..., title="The item Id of the item to get", gt=0, le=10),
+    q: str,
+    size: float = Query(..., gt=0, le=10.5)
 ):
-    results = {"item_id": item_id, "q": q}
-    return results
+    result = {"item_id": item_id, "q": q, "size": size}
+    return result
+
+
+
+
+# TODO Number Validations: greater than equal
+
+# @app.get("/items/{item_id}")
+# async def read_item(
+#     *,
+#     item_id: int = Path(..., title="The item Id of the item to get", gt=0, le=10),
+#     q: str
+# ):
+#     results = {"item_id": item_id, "q": q}
+#     return results 
+
+
+
+
+# TODO Ordering the parameters as is needed and tricks 
+
+
+# @app.get("/items/{item_id}")
+# async def read_items(
+#     *,
+#     item_id: int = Path(..., title="The item Id of the item to get"),
+#     q: str
+# ):
+#     result = {"item_id": item_id, "q": q}
+#     return result
+
+
+# TODO Ordering the parameters as is needed
+
+# @app.get("/items/{item_id}")
+# async def read_items(
+#     q: str, item_id: int = Path(..., title="The Id of the item to get")
+# ):
+#     results = {"item_id": item_id, "q": q}
+#     return results
 
 
 # TODO Import path
