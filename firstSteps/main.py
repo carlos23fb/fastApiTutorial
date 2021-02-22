@@ -1,5 +1,5 @@
 from typing import List, Optional
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Path
 from pydantic import BaseModel
 from enum import Enum
 # TODO Importar fastApi
@@ -24,25 +24,38 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
 
-# TODO Deprecating parameters
+# TODO Import
 
-@app.get("/items/")
+@app.get('/items/')
 async def read_items(
-    q: Optional[str] = Query(
-        None,
-        alias="item-query",
-        title="Query String",
-        description="Query String for the items to search in the database that have a good match",
-        min_length=3,
-        max_length=20,
-        regex="^fixedquery$",
-        deprecated= True
-    )
+    item_id: int = Path(..., title="The Id of the item to get"),
+    q: Optional[str] = Query(None, alias="item-query")
 ):
-    results = {"items": [{"item_id": "Foor"},{"item_id": "Bar"}]}
+    results = {"item_id": item_id}
     if q:
         results.update({"q": q})
     return results
+
+
+# TODO Deprecating parameters
+
+# @app.get("/items/")
+# async def read_items(
+#     q: Optional[str] = Query(
+#         None,
+#         alias="item-query",
+#         title="Query String",
+#         description="Query String for the items to search in the database that have a good match",
+#         min_length=3,
+#         max_length=20,
+#         regex="^fixedquery$",
+#         deprecated= True
+#     )
+# ):
+#     results = {"items": [{"item_id": "Foor"},{"item_id": "Bar"}]}
+#     if q:
+#         results.update({"q": q})
+#     return results
 
 
 # TODO Alias parameters
