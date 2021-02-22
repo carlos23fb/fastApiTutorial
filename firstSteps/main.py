@@ -1,5 +1,5 @@
 from typing import List, Optional
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, Query, Path, Body
 from pydantic import BaseModel
 from enum import Enum
 # TODO Importar fastApi
@@ -28,17 +28,32 @@ class User(BaseModel):
     user_name: str
     full_name: Optional[str] = None
 
-
-# TODO Multiple body parameters
+# TODO Singular values in body
 
 @app.put("/items/{item_id}")
 async def update_items(
     item_id: int,
     item: Item,
-    user: User
+    user: User,
+    importance: int = Body(..., ge=1, le=5)
 ):
-    result ={"item_id": item_id, "item": item, "user": user}
+    result = {"item_id": item_id, "item": item, "user": user, "importance": importance}
     return result
+
+
+
+
+
+# TODO Multiple body parameters
+
+# @app.put("/items/{item_id}")
+# async def update_items(
+#     item_id: int,
+#     item: Item,
+#     user: User
+# ):
+#     result ={"item_id": item_id, "item": item, "user": user}
+#     return result
 
 
 # TODO Mix Path, Query and body parameters
