@@ -24,17 +24,27 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
 
-# TODO Import
+# TODO Ordering the parameters as is needed
 
-@app.get('/items/')
+@app.get("/items/{item_id}")
 async def read_items(
-    item_id: int = Path(..., title="The Id of the item to get"),
-    q: Optional[str] = Query(None, alias="item-query")
+    q: str, item_id: int = Path(..., title="The Id of the item to get")
 ):
-    results = {"item_id": item_id}
-    if q:
-        results.update({"q": q})
+    results = {"item_id": item_id, "q": q}
     return results
+
+
+# TODO Import path
+
+# @app.get('/items/{item_id}')
+# async def read_items(
+#     item_id: int = Path(..., title="The Id of the item to get"),
+#     q: Optional[str] = Query(None, alias="item-query")
+# ):
+#     results = {"item_id": item_id}
+#     if q:
+#         results.update({"q": q})
+#     return results
 
 
 # TODO Deprecating parameters
