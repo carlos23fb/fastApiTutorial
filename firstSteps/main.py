@@ -24,17 +24,37 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
 
+# TODO Mix Path, Query and body parameters
+
+@app.put("/items/{item_id}")
+async def update_items(
+    *,
+    item_id: int = Path(..., title="The Id of the item to get", ge=0, le=1000),
+    q: Optional[str] = None,
+    item: Optional[Item] = None
+):
+    result = {"item_id": item_id}
+    if q:
+        result.update({"q": q})
+    if item:
+        result.update({"item": item})
+    return result
+
+
+
+
+
 #TODO Number Validations: greater than equal, greater than, less than with floats
 
-@app.get("/items/{item_id}")
-async def read_item(
-    *,
-    item_id: int = Path(..., title="The item Id of the item to get", gt=0, le=10),
-    q: str,
-    size: float = Query(..., gt=0, lt=10.5)
-):
-    result = {"item_id": item_id, "q": q, "size": size}
-    return result
+# @app.get("/items/{item_id}")
+# async def read_item(
+#     *,
+#     item_id: int = Path(..., title="The item Id of the item to get", gt=0, le=10),
+#     q: str,
+#     size: float = Query(..., gt=0, lt=10.5)
+# ):
+#     result = {"item_id": item_id, "q": q, "size": size}
+#     return result
 
 
 
