@@ -31,7 +31,7 @@ async def read_item(
     *,
     item_id: int = Path(..., title="The item Id of the item to get", gt=0, le=10),
     q: str,
-    size: float = Query(..., gt=0, le=10.5)
+    size: float = Query(..., gt=0, lt=10.5)
 ):
     result = {"item_id": item_id, "q": q, "size": size}
     return result
