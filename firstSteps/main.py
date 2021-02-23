@@ -55,7 +55,11 @@ async def create_offer(offer: Offer):
     return offer
 
 
+# TODO Bodies of pure lists
 
+@app.post("/images/multiples/")
+async def create_multiple_images(images: List[Image]):
+    return images
 
 
 # TODO Change 'image' field of "Item" Model to a attribute with lists of submodels
