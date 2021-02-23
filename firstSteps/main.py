@@ -25,7 +25,11 @@ class ModelName(str, Enum):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO Modify 'tag' Item model field from a List with string type parameters to a Set with strings type parameters
+# TODO Add "Image" Model as nested field to Item Model
+
+class Image(BaseModel):
+    url: str
+    name: str
 
 class Item(BaseModel):
     name: str
@@ -33,6 +37,17 @@ class Item(BaseModel):
     price: float
     tax: Optional[float] = None
     tags: Set[str] = set()
+    image: Optional[Image] = None
+
+
+# TODO Modify 'tag' Item model field from a List with string type parameters to a Set with strings type parameters
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: Set[str] = set()
 
 # TODO List fields with string type parameter
 
