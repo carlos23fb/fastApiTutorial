@@ -30,20 +30,33 @@ class User(BaseModel):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO add schema example with 'Field' additional arguments
-
-
 class Image(BaseModel):
     name: str
     url: HttpUrl
 
 
 class Item(BaseModel):
-    name: str = Field(..., example="The pretender")
-    description: str = Field(None, example="First Foo Fighter Hit")
-    price: float = Field(..., example=44)
-    tax: float = Field(None, example= 4)
-    tags: Set[str] =  Field(None, example=["Punk", "Rock"])
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: Optional[float] = None
+    tags: Set[str] = set()
+    image: Optional[List[Image]] = []
+
+# TODO add schema example with 'Field' additional arguments
+
+
+# class Image(BaseModel):
+#     name: str
+#     url: HttpUrl
+
+
+# class Item(BaseModel):
+#     name: str = Field(..., example="The pretender")
+#     description: str = Field(None, example="First Foo Fighter Hit")
+#     price: float = Field(..., example=44)
+#     tax: float = Field(None, example= 4)
+#     tags: Set[str] =  Field(None, example=["Punk", "Rock"])
 
 
 
@@ -104,10 +117,28 @@ class Offer(BaseModel):
     items: List[Item]
 
 
-@app.put("item/update/{item_id}")
-async def update_item(item_id: int, item: Item):
+# TODO Using "example" Body argument for declare extra JSON Schema information
+
+@app.put("/item/update/{item_id}")
+async def update_item(
+    item_id: int,
+    item: Item = Body(...,example={
+        "name": "The pretender",
+        "description": "First Foo Fighters Hit",
+        "price": 44,
+        "tax": 4,
+        "tags": ["Banda", "Rock"],
+        "image": [{"name": "Foo", "url": "http://example.com/image.jpeg"}, {"name": "The Pretender", "url": "http://example.com/image.jpeg"}]
+    })
+):
     results = {"item_id": item_id, "item": item}
     return results
+
+
+# @app.put("item/update/{item_id}")
+# async def update_item(item_id: int, item: Item):
+#     results = {"item_id": item_id, "item": item}
+#     return results
 
 
 
