@@ -18,6 +18,11 @@ class ModelName(str, Enum):
     lenet = "lenet"
 
 
+class User(BaseModel):
+    user_name: str
+    full_name: Optional[str] = None
+
+
 # class Item(BaseModel):
 #     name: str
 #     description: Optional[str] = Field(None, title="The description of the item", max_length=300)
@@ -26,8 +31,9 @@ class ModelName(str, Enum):
 #     tax: Optional[float] = None
 
 
+# TODO Add schema extra to 'Item' Model
 
-# TODO Deeply nested models
+
 class Image(BaseModel):
     name: str
     url: HttpUrl
@@ -37,9 +43,41 @@ class Item(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
-    tax: Optional[float] = None
+    tax: Optional[str] = None
     tags: Set[str] = set()
-    images: Optional[List[Image]] = []
+    # images: Optional[List[Image]] = []
+
+    # class Config:
+    #     schema_extra = {
+    #         "example" : {
+    #             "name": "The Pretender",
+    #             "description": "The Foo Fighter First hit",
+    #             "price": 20,
+    #             "tax": 2,
+    #             "tags": ["Rock", "Punk"]
+    #         }
+    #     }
+
+
+
+
+
+
+
+# TODO Deeply nested models
+# class Image(BaseModel):
+#     name: str
+#     url: HttpUrl
+
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: Set[str] = set()
+#     images: Optional[List[Image]] = []
+    
 
 
 class Offer(BaseModel):
@@ -47,6 +85,13 @@ class Offer(BaseModel):
     description: Optional[str] = None
     price: float
     items: List[Item]
+
+
+@app.put("/item/update/{item_id}")
+async def update_item(item_id: int, item: Item):
+    results = {"item_id": item_id, "item": item}
+    return results
+
 
 
 
@@ -140,16 +185,15 @@ async def create_multiple_images(images: List[Image]):
 #     tags: list = []
 
 
-class User(BaseModel):
-    user_name: str
-    full_name: Optional[str] = None
+
 
 # TODO Embed a single body parameter
 
-@app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Item = Body(...)):
-    results = {"item_id": item_id, "item": item}
-    return results
+# @app.put("/items/{item_id}")
+# async def update_item(item_id: int, item: Item = Body(...)):
+#     results = {"item_id": item_id, "item": item}
+#     return results
+
 
 
 
