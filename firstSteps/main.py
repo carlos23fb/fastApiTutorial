@@ -30,8 +30,7 @@ class User(BaseModel):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-
-# TODO Add schema extra to 'Item' Model
+# TODO add schema example with 'Field' additional arguments
 
 
 class Image(BaseModel):
@@ -40,11 +39,29 @@ class Image(BaseModel):
 
 
 class Item(BaseModel):
-    name: str
-    description: Optional[str] = None
-    price: float
-    tax: Optional[str] = None
-    tags: Set[str] = set()
+    name: str = Field(..., example="The pretender")
+    description: str = Field(None, example="First Foo Fighter Hit")
+    price: float = Field(..., example=44)
+    tax: float = Field(None, example= 4)
+    tags: Set[str] =  Field(None, example=["Punk", "Rock"])
+
+
+
+
+# TODO Add schema extra to 'Item' Model with schema_extra
+
+
+# class Image(BaseModel):
+#     name: str
+#     url: HttpUrl
+
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[str] = None
+#     tags: Set[str] = set()
     # images: Optional[List[Image]] = []
 
     # class Config:
@@ -87,7 +104,7 @@ class Offer(BaseModel):
     items: List[Item]
 
 
-@app.put("/item/update/{item_id}")
+@app.put("item/update/{item_id}")
 async def update_item(item_id: int, item: Item):
     results = {"item_id": item_id, "item": item}
     return results
