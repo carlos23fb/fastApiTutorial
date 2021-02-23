@@ -25,14 +25,24 @@ class ModelName(str, Enum):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO List Fields
+# TODO List fields with type parameter
 
 class Item(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
-    tags: list = []
+    tags: List[str] = []
+
+
+# TODO List Fields
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: list = []
 
 
 class User(BaseModel):
