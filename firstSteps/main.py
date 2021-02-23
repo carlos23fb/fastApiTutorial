@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Set
 from fastapi import FastAPI, Query, Path, Body
 from pydantic import BaseModel, Field
 from enum import Enum
@@ -25,14 +25,23 @@ class ModelName(str, Enum):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO List fields with type parameter
+# TODO Modify 'tag' Item model field from a List with string type parameters to a Set with strings type parameters
 
 class Item(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
-    tags: List[str] = []
+    tags: Set[str] = set()
+
+# TODO List fields with string type parameter
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: List[str] = []
 
 
 # TODO List Fields
