@@ -1,6 +1,6 @@
 from typing import List, Optional, Set
 from fastapi import FastAPI, Query, Path, Body
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 from enum import Enum
 # TODO Importar fastApi
 
@@ -25,11 +25,12 @@ class ModelName(str, Enum):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO Add "Image" Model as nested field to Item Model
+# TODO Change 'url' field type from str to HttpUrl pydantic type
 
 class Image(BaseModel):
-    url: str
     name: str
+    url: HttpUrl
+
 
 class Item(BaseModel):
     name: str
@@ -38,6 +39,23 @@ class Item(BaseModel):
     tax: Optional[float] = None
     tags: Set[str] = set()
     image: Optional[Image] = None
+
+
+
+
+# TODO Add "Image" Model as nested field to Item Model
+
+# class Image(BaseModel):
+#     url: str
+#     name: str
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: Set[str] = set()
+#     image: Optional[Image] = None
 
 
 # TODO Modify 'tag' Item model field from a List with string type parameters to a Set with strings type parameters
