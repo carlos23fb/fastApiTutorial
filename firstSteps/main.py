@@ -18,12 +18,22 @@ class ModelName(str, Enum):
     lenet = "lenet"
 
 
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = Field(None, title="The description of the item", max_length=300)
+#     price: float = Field(
+#         ..., description="The price must be greater than zero")
+#     tax: Optional[float] = None
+
+# TODO List Fields
+
 class Item(BaseModel):
     name: str
-    description: Optional[str] = Field(None, title="The description of the item", max_length=300)
-    price: float = Field(
-        ..., description="The price must be greater than zero")
+    description: Optional[str] = None
+    price: float
     tax: Optional[float] = None
+    tags: list = []
+
 
 class User(BaseModel):
     user_name: str
