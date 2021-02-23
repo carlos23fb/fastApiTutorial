@@ -25,20 +25,36 @@ class ModelName(str, Enum):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO Change 'url' field type from str to HttpUrl pydantic type
+# TODO Change "image" field of "Item" Model to a attribute with lists of submodels
 
 class Image(BaseModel):
     name: str
     url: HttpUrl
 
-
-class Item(BaseModel):
+class  Item(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
     tags: Set[str] = set()
-    image: Optional[Image] = None
+    images: Optional[List[Image]] = []
+
+
+
+# TODO Change 'url' field type from str to HttpUrl pydantic type
+
+# class Image(BaseModel):
+#     name: str
+#     url: HttpUrl
+
+
+# class Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: Set[str] = set()
+#     image: Optional[Image] = None
 
 
 
