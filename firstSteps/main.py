@@ -25,19 +25,52 @@ class ModelName(str, Enum):
 #         ..., description="The price must be greater than zero")
 #     tax: Optional[float] = None
 
-# TODO Change "image" field of "Item" Model to a attribute with lists of submodels
 
+
+# TODO Deeply nested models
 class Image(BaseModel):
     name: str
     url: HttpUrl
 
-class  Item(BaseModel):
+
+class Item(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
     tags: Set[str] = set()
     images: Optional[List[Image]] = []
+
+
+class Offer(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    items: List[Item]
+
+
+
+@app.post("/offers/")
+async def create_offer(offer: Offer):
+    return offer
+
+
+
+
+
+# TODO Change 'image' field of "Item" Model to a attribute with lists of submodels
+
+# class Image(BaseModel):
+#     name: str
+#     url: HttpUrl
+
+# class  Item(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     tax: Optional[float] = None
+#     tags: Set[str] = set()
+#     images: Optional[List[Image]] = []
 
 
 
