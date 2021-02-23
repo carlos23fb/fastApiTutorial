@@ -1,6 +1,6 @@
 from typing import List, Optional
 from fastapi import FastAPI, Query, Path, Body
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from enum import Enum
 # TODO Importar fastApi
 
@@ -20,15 +20,21 @@ class ModelName(str, Enum):
 
 class Item(BaseModel):
     name: str
-    description: Optional[str] = None
-    price: float
+    description: Optional[str] = Field(None, title="The description of the item", max_length=300)
+    price: float = Field(
+        ..., description="The price must be greater than zero")
     tax: Optional[float] = None
 
 class User(BaseModel):
     user_name: str
     full_name: Optional[str] = None
 
+# TODO Embed a single body parameter
 
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Item = Body(...)):
+    results = {"item_id": item_id, "item": item}
+    return results
 
 
 
@@ -43,7 +49,7 @@ class User(BaseModel):
 #     importance: int = Body(..., gt=0),
 #     q: Optional[str] = None
 # ):
-#     results = {"item_id": item_id, "item": item, "user": user}
+#     results = {"item_id": item_id, "item": item, "user": user, "importance": importance}
 #     if q:
 #         results.update({"q": q})
 #     return results
