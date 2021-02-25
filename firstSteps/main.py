@@ -1,5 +1,5 @@
 from typing import List, Optional, Set
-from fastapi import FastAPI, Query, Path, Body
+from fastapi import FastAPI, Query, Path, Body, Cookie
 from pydantic import BaseModel, Field, HttpUrl
 from enum import Enum
 # TODO Importar fastApi
@@ -115,6 +115,12 @@ class Offer(BaseModel):
     description: Optional[str] = None
     price: float
     items: List[Item]
+
+# Todo Cookie Parameters
+
+@app.get("/objects")
+async def read_items(ads_id: Optional[str] = Cookie(None)):
+    return {"ads": ads_id}
 
 
 # TODO Using "example" Body argument for declare extra JSON Schema information
