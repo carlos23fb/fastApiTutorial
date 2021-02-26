@@ -2,6 +2,8 @@ from typing import List, Optional, Set
 from fastapi import FastAPI, Query, Path, Body
 from pydantic import BaseModel, Field, HttpUrl
 from enum import Enum
+from datetime import datetime, timedelta, time
+from uuid import  UUID
 # TODO Importar fastApi
 
 
@@ -42,6 +44,29 @@ class Item(BaseModel):
     tax: Optional[float] = None
     tags: Set[str] = set()
     image: Optional[List[Image]] = []
+
+# TODO 
+
+# @app.put("/item/create/{item_id}")
+# async def create_items(
+#     item_id: UUID,
+#     start_datetime: Optional[datetime] = Body(None),
+#     end_datetime: Optional[datetime] = Body(None),
+#     repeat_at: Optional[time] = Body(None),
+#     process_after: Optional[timedelta] = None
+# ):  
+#     start_process = process_after + start_datetime 
+#     duration = end_datetime - start_datetime
+#     return {
+#         "item_id": item_id,
+#         "start_datetime": start_datetime,
+#         "end_datetime": end_datetime,
+#         "repeat_at": repeat_at,
+#         "process_after": process_after,
+#         "start_process": start_process,
+#         "duration": duration
+#     }
+
 
 # TODO add schema example with 'Field' additional arguments
 
@@ -117,7 +142,7 @@ class Offer(BaseModel):
     items: List[Item]
 
 
-# TODO Using "example" Body argument for declare extra JSON Schema information
+# TODO Using "example" Body's argument for declare extra JSON Schema information
 
 @app.put("/item/update/{item_id}")
 async def update_item(
